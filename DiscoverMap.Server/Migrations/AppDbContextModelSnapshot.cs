@@ -22,7 +22,32 @@ namespace DiscoverMap.Server.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DiscoverMap.Server.Models.Pin", b =>
+            modelBuilder.Entity("DiscoverMap.Server.Features.Auth.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("DiscoverMap.Server.Features.Pins.Models.Pin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,9 +79,30 @@ namespace DiscoverMap.Server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Pins");
+                });
+
+            modelBuilder.Entity("DiscoverMap.Server.Features.Pins.Models.Pin", b =>
+                {
+                    b.HasOne("DiscoverMap.Server.Features.Auth.Models.User", "User")
+                        .WithMany("Pins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DiscoverMap.Server.Features.Auth.Models.User", b =>
+                {
+                    b.Navigation("Pins");
                 });
 #pragma warning restore 612, 618
         }

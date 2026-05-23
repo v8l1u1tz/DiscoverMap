@@ -1,1 +1,2 @@
 C:\Users\user\source\repos\Personal Projects\DiscoverMap\discovermap.client\obj\Debug\discovermap.client.esproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\PersonalProjects\DiscoverMap\discovermap.client\obj\Debug\discovermap.client.esproj.CoreCompileInputs.cache

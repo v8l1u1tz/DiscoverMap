@@ -10,4 +10,4 @@ const MapPage = () => {
     return <MapView pins={pins} />;
 };
 
-export default MapPage;
+export default MapPage; 
