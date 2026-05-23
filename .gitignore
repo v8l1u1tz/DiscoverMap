@@ -36,3 +36,7 @@ docker-compose.local.yml
 *.njsproj
 *.sln
 *.sw?
+.vs/
+*.db
+*.db-shm
+*.db-wal

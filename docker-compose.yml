@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    container_name: discovermap_db
+    environment:
+      POSTGRES_USER: discovermap
+      POSTGRES_PASSWORD: discovermap123
+      POSTGRES_DB: discovermapdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U discovermap -d discovermapdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: docker/server.Dockerfile
+    ports:
+      - "5227:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=discovermapdb;Username=discovermap;Password=discovermap123
+    depends_on:
+      db:
+        condition: service_healthy
+
+  client:
+    build:
+      context: .
+      dockerfile: docker/client.Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+
+volumes:
+  db_data:
