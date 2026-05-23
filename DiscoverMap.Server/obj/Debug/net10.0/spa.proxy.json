@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:54628",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "C:\\Users\\user\\source\\repos\\Personal Projects\\DiscoverMap\\DiscoverMap.Server\\..\\discovermap.client",
+"WorkingDirectory": "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\..\\discovermap.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }

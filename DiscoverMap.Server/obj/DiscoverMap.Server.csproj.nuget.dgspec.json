@@ -1,26 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/DiscoverMap/DiscoverMap.Server/DiscoverMap.Server.csproj": {}
+    "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\DiscoverMap.Server.csproj": {}
   },
   "projects": {
-    "/workspaces/DiscoverMap/DiscoverMap.Server/DiscoverMap.Server.csproj": {
+    "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\DiscoverMap.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/DiscoverMap/DiscoverMap.Server/DiscoverMap.Server.csproj",
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\DiscoverMap.Server.csproj",
         "projectName": "DiscoverMap.Server",
-        "projectPath": "/workspaces/DiscoverMap/DiscoverMap.Server/DiscoverMap.Server.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/DiscoverMap/DiscoverMap.Server/obj/",
+        "projectPath": "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\DiscoverMap.Server.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\PersonalProjects\\DiscoverMap\\DiscoverMap.Server\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://www.nuget.org/api/v2": {}
         },
         "frameworks": {
           "net10.0": {
@@ -38,12 +45,20 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.8, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.5, )"
@@ -90,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

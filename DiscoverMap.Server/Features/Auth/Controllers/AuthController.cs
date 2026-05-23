@@ -26,9 +26,9 @@ namespace DiscoverMap.Server.Features.Auth.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
-            var user = await _authService.LoginAsync(dto);
-            if (user == null) return Unauthorized("Invalid credentials.");
-            return Ok("jwt_coming_soon");
+            var token = await _authService.LoginAsync(dto);
+            if (token == null) return Unauthorized("Invalid credentials.");
+            return Ok(new { token });
         }
     }
 }
