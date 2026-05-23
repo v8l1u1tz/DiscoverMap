@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using DiscoverMap.Server.Features.Auth.DTOs;
 using DiscoverMap.Server.Features.Auth.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DiscoverMap.Server.Features.Auth.Controllers
 {
@@ -20,7 +20,7 @@ namespace DiscoverMap.Server.Features.Auth.Controllers
         {
             var result = await _authService.RegisterAsync(dto);
             if (!result) return BadRequest("Username or email already exists.");
-            return Ok("User registered successfully.");
+            return Ok("Registered successfully.");
         }
 
         [HttpPost("login")]
