@@ -34,6 +34,8 @@ services:
       dockerfile: docker/client.Dockerfile
     ports:
       - "5173:5173"
+    volumes:
+      - ./discovermap.client/src:/app/src
     depends_on:
       - server
 

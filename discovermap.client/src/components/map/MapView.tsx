@@ -16,17 +16,19 @@ interface MapViewProps {
 }
 
 const MapView = ({ pins }: MapViewProps) => {
-    return (
-        <MapContainer center={[14.5995, 120.9842]} zoom={13} style={{ height: "100vh", width: "100%" }}>
-            <TileLayer
-                attribution='&copy; OpenStreetMap contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {pins.map((pin) => (
-                <PinMarker key={pin.id} pin={pin} />
-            ))}
-        </MapContainer>
-    );
+  return (
+    <div className="h-full w-full">
+      <MapContainer center={[14.5995, 120.9842]} zoom={13} style={{ height: "100%", width: "100%" }}>
+        <TileLayer
+          attribution='&copy; OpenStreetMap contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {pins.map((pin) => (
+          <PinMarker key={pin.id} pin={pin} />
+        ))}
+      </MapContainer>
+    </div>
+  );
 };
 
 export default MapView;

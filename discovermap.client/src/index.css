@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-top.leaflet-left {
+  top: unset;
+  left: unset;
+  bottom: 2rem;
+  right: 1.5rem;
+}
