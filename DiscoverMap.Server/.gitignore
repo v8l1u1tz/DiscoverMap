@@ -42,3 +42,6 @@ docker-compose.local.yml
 *.njsproj
 *.sln
 *.sw?
+
+DiscoverMap.Server/bin/
+DiscoverMap.Server/obj/
