@@ -30,15 +30,15 @@ const MapPage = () => {
     <PageLayout>
       <PageBody>
         <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)}>
-          <span className="text-lg font-semibold text-stone-800 tracking-tight px-1" style={{ fontFamily: "'DM Serif Display', serif" }}>
-            Discover<span className="text-emerald-500">Map</span>
+          <span className="text-xl font-semibold text-stone-800 tracking-tight px-1" style={{ fontFamily: "'DM Serif Display', serif" }}>
+            DiscoverMap
           </span>
           <Divider />
           <PinList pins={pins} />
         </Sidebar>
 
         <MapFrame overlay={<MapOverlay activeCategory={activeCategory} onCategoryChange={setActiveCategory} />}>
-          <MapView pins={pins} />
+          <MapView pins={pins} resizeTrigger={sidebarOpen} />
         </MapFrame>
       </PageBody>
     </PageLayout>

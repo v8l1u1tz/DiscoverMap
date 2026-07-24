@@ -14,9 +14,9 @@ interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-    primary: "bg-emerald-500 hover:bg-emerald-600 text-white",
-    ghost: "text-stone-500 hover:text-stone-800",
-    outline: "border border-stone-200 bg-white hover:bg-stone-50 text-stone-600",
+  primary: "bg-stone-900 hover:bg-stone-800 text-white",
+  ghost: "text-stone-500 hover:text-stone-800",
+  outline: "border border-stone-200 bg-white hover:bg-stone-50 text-stone-600",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
