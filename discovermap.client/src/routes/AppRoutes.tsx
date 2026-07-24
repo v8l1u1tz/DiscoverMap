@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "../pages/Auth/Login";
+import LoginPage from "../pages/Auth/Login/LoginPage";
 import RegisterPage from "../pages/Auth/Register/RegisterPage";
-import MapPage from "../pages/MapPage";
+import MapPage from "../pages/Map/MapPage";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {

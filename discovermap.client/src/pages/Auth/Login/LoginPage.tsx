@@ -3,7 +3,7 @@ import Card from "../../../components/ui/Card";
 import Toggle from "../../../components/ui/Toggle";
 import LoginForm from "./partials/LoginForm";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -28,4 +28,6 @@ export default function LoginPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default LoginPage;
