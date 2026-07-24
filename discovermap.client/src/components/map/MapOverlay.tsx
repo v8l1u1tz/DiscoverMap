@@ -2,6 +2,8 @@ import SearchBar from "../ui/SearchBar";
 import CategoryChip from "../ui/CategoryChip";
 import Dropdown from "../ui/Dropdown";
 import DropdownItem from "../ui/DropdownItem";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const CATEGORIES = ["All", "Cafe", "Gym", "Lounge", "Hidden Gems", "Landmark", "Restaurant"];
 
@@ -11,6 +13,14 @@ interface MapOverlayProps {
 }
 
 const MapOverlay = ({ activeCategory, onCategoryChange }: MapOverlayProps) => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="flex items-center gap-2 w-full">
       <div className="w-72 shrink-0 bg-white rounded-full shadow-md border border-stone-100">
@@ -34,7 +44,7 @@ const MapOverlay = ({ activeCategory, onCategoryChange }: MapOverlayProps) => {
           trigger={
             <button
               aria-label="Profile"
-              className="w-10 h-10 rounded-full bg-white shadow-md border border-stone-100 flex items-center justify-center hover:bg-stone-50 transition-colors"
+              className="w-10 h-10 rounded-full bg-white shadow-md border border-stone-100 flex items-center justify-center hover:bg-stone-50 transition-colors cursor-pointer"
             >
               <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z" />
@@ -42,8 +52,10 @@ const MapOverlay = ({ activeCategory, onCategoryChange }: MapOverlayProps) => {
             </button>
           }
         >
-          <DropdownItem variant="primary">Register</DropdownItem>
-          <DropdownItem>Login</DropdownItem>
+          <DropdownItem>Profile</DropdownItem>
+          <DropdownItem variant="primary" onClick={handleLogout}>
+            Logout
+          </DropdownItem>
         </Dropdown>
       </div>
     </div>
