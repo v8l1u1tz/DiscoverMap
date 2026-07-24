@@ -3,7 +3,7 @@ import Card from "../../../components/ui/Card";
 import Toggle from "../../../components/ui/Toggle";
 import RegisterForm from "./partials/RegisterForm";
 
-export default function RegisterPage() {
+const RegisterPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -28,4 +28,6 @@ export default function RegisterPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default RegisterPage;
