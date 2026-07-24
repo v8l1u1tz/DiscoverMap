@@ -1,116 +1,57 @@
-﻿# React + TypeScript + Vite
+# discovermap.client 🗺️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend. Takes all the credit. Does very little math.
 
-Currently, two official plugins are available:
+Built with React + TypeScript + Tailwind CSS + Leaflet, because someone decided a plain HTML file with a `<div id="map">` wasn't good enough. They were right, but also, look at what we've become.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> *"It's just a map with some pins."*
+> — the developer at the start
+> 
+> *"Why do I have 14 components for a map page?"*
+> — the developer now
 
-## React Compiler
+## What this does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Shows a map. Shows pins on the map. Has a sidebar that slides. Has a search bar that doesn't search yet (it's decorative, like a throw pillow). Has category chips that look great and do nothing to the map (yet).
 
-## Expanding the ESLint configuration
+- **React 19** - because 18 was so last year
+- **TypeScript** - so the compiler can tell you you're wrong before the user does
+- **Tailwind CSS** - utility classes only, no custom CSS except where Leaflet refuses to cooperate (and it will refuse)
+- **Leaflet** - the map library that works great until you try to style it, at which point it becomes a negotiation
+- **Vite** - fast. very fast. suspiciously fast.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Folder Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── layout/      <- PageLayout, PageBody, Navbar, Sidebar - the skeleton of the app
+│   ├── map/         <- MapView, MapFrame, MapOverlay, PinMarker, PinList - map-specific stuff
+│   └── ui/          <- Button, PinCard, SearchBar, CategoryChip, Dropdown - reusable, children-based, no backend knowledge
+├── hooks/           <- usePins, useAuth (coming soon, I promise)
+├── pages/           <- MapPage - surprisingly short now that I refactored
+├── services/        <- pinService, authService - fetch calls live here, not in hooks, not in components
+└── types/           <- Pin, User - TypeScript interfaces so I know what I am working with
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Rules of this codebase
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Components are reusable. They take `children`. They do not fetch data. They do not know what a `Pin` is.
+2. Fetching belongs in `services/`. State belongs in `hooks/`. Rendering belongs in components.
+3. No spaghetti. I may work with complex legacy codebases professionally, but this project is my creative outlet for clean architecture. Please respect the folder structure - it took emotional effort.
+4. If your component is longer than 50 lines, ask yourself why.
+5. Everything is reusable. Everything has a place. This is intentional and I am very proud of it.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## How to run
+
+```bash
+docker compose up --build
 ```
 
-## File Structure of this project
-```
-discover-map/
-│
-├─ discovermap.client/         # React frontend
-│   ├─ public/
-│   ├─ src/
-│   │   ├─ components/         # Reusable components (Map, PinCard, Filters, Heatmap)
-│   │   ├─ pages/              # Main pages (Home, AddPin, PinDetail)
-│   │   ├─ hooks/              # Custom React hooks (usePins, useFilter)
-│   │   ├─ utils/              # Helpers (distance calculation, formatting)
-│   │   ├─ assets/             # Images, icons, styles
-│   │   ├─ services/           # API calls (pinsService.js)
-│   │   └─ App.js
-│   └─ package.json
-│
-├─ DiscoverMap.Server/         # C# ASP.NET Core Web API backend
-│   ├─ Controllers/            # API controllers (PinController.cs, UserController.cs)
-│   ├─ Models/                 # DB models / entity classes (Pin.cs, User.cs)
-│   ├─ Services/               # Business logic (PinService.cs, GeoService.cs)
-│   ├─ DTOs/                   # Data transfer objects (PinDTO.cs)
-│   ├─ Repositories/           # Data access layer (PinRepository.cs)
-│   ├─ Migrations/             # Database migrations (EF Core)
-│   ├─ Helpers/                # Utility functions (GeoHelper.cs, FileUploadHelper.cs)
-│   ├─ appsettings.json        # Config for DB & Supabase keys
-│   └─ Program.cs + Startup.cs # Entry point & middleware setup
-│
-├─ supabase/                    # Optional: Supabase scripts / config
-│   └─ supabaseClient.cs        # Supabase real-time setup (if using subscriptions)
-│
-├─ scripts/                     # Solo testing / pin simulators
-│   ├─ fakePinsGenerator.cs     # Generates fake pins for testing
-│   └─ seedDatabase.cs          # Seed initial pins/users
-│
-├─ docker/                      # Docker config for all services
-│   ├─ client.Dockerfile
-│   ├─ server.Dockerfile
-│   ├─ docker-compose.yml       # Compose for React + API + PostgreSQL
-│
-├─ README.md
-└─ .env                         # Environment variables (API keys, DB connection)
-```
+Then open `http://localhost:5173` and pretend you're a cartographer.
+
+## Known issues
+
+- The search bar is beautiful and does nothing. This is intentional (for now).
+- Category chips filter your enthusiasm but not the pins yet. Coming soon.
+- Leaflet's `+/-` zoom buttons cannot be styled with Tailwind. This is Leaflet's fault. I've moved on.
