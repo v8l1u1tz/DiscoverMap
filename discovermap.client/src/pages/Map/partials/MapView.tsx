@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import type { Pin } from "../../types/pin";
+import type { Pin } from "../../../types/pin";
 import PinMarker from "./PinMarker";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;

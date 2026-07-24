@@ -1,9 +1,9 @@
-import SearchBar from "../ui/SearchBar";
-import CategoryChip from "../ui/CategoryChip";
-import Dropdown from "../ui/Dropdown";
-import DropdownItem from "../ui/DropdownItem";
+import SearchBar from "../../../components/ui/SearchBar";
+import CategoryChip from "../../../components/ui/CategoryChip";
+import Dropdown from "../../../components/ui/Dropdown";
+import DropdownItem from "../../../components/ui/DropdownItem";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 
 const CATEGORIES = ["All", "Cafe", "Gym", "Lounge", "Hidden Gems", "Landmark", "Restaurant"];
 

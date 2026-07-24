@@ -2,11 +2,11 @@ import { useState } from "react";
 import PageLayout from "../../components/layout/PageLayout";
 import PageBody from "../../components/layout/PageBody";
 import Sidebar from "../../components/layout/Sidebar";
-import MapFrame from "../../components/map/MapFrame";
-import MapView from "../../components/map/MapView";
-import MapOverlay from "../../components/map/MapOverlay";
-import PinList from "../../components/map/PinList";
 import Divider from "../../components/ui/Divider";
+import MapOverlay from "./partials/MapOverlay";
+import MapFrame from "./partials/MapFrame";
+import MapView from "./partials/MapView";
+import PinList from "./partials/PinList";
 import usePins from "../../hooks/usePins";
 
 const MapPage = () => {

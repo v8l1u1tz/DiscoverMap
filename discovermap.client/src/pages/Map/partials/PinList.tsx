@@ -1,5 +1,5 @@
-import PinCard from "../ui/PinCard";
-import type { Pin } from "../../types/pin";
+import PinCard from "../../../components/ui/PinCard";
+import type { Pin } from "../../../types/pin";
 
 interface PinListProps {
   pins: Pin[];
