@@ -27,7 +27,7 @@ const Dropdown = ({ trigger, children, align = "right" }: DropdownProps) => {
       </div>
       {open && (
         <div
-          className={`absolute top-12 z-[2000] bg-white border border-stone-100 rounded-2xl shadow-lg p-1.5 min-w-[160px] ${
+          className={`absolute top-12 z-[2000] bg-white border border-stone-200 rounded-2xl shadow-lg p-1.5 min-w-[160px] ${
             align === "right" ? "right-0" : "left-0"
           }`}
         >
