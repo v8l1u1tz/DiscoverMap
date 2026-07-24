@@ -17,7 +17,6 @@ appsettings.json
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Local.json
-appsettings.json
 
 # Environment variables
 .env
