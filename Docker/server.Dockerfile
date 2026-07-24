@@ -1,16 +1,28 @@
 # Stage 1: build
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-COPY DiscoverMap.Server/*.csproj ./
-RUN dotnet restore --no-cache
+# Copy csproj and restore
+COPY DiscoverMap.Server/*.csproj ./DiscoverMap.Server/
+WORKDIR /src/DiscoverMap.Server
+RUN dotnet restore
 
-COPY DiscoverMap.Server/. .
-RUN dotnet publish -c Release -o out
+# Copy all source and build
+WORKDIR /src
+COPY DiscoverMap.Server/. ./DiscoverMap.Server/
+WORKDIR /src/DiscoverMap.Server
+RUN dotnet publish -c Release -o /app/publish
 
 # Stage 2: runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
-COPY --from=build /app/out .
-EXPOSE 5227
+
+# Copy published app
+COPY --from=build /app/publish .
+
+# Copy configuration files
+COPY --from=build /src/DiscoverMap.Server/appsettings.json ./appsettings.json
+COPY --from=build /src/DiscoverMap.Server/appsettings.Development.json ./appsettings.Development.json
+
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "DiscoverMap.Server.dll"]
