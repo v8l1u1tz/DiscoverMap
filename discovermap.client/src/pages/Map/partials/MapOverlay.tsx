@@ -10,9 +10,11 @@ const CATEGORIES = ["All", "Cafe", "Gym", "Lounge", "Hidden Gems", "Landmark", "
 interface MapOverlayProps {
   activeCategory: string;
   onCategoryChange: (cat: string) => void;
+  sidebarOpen: boolean;
+  onSidebarToggle: () => void;
 }
 
-const MapOverlay = ({ activeCategory, onCategoryChange }: MapOverlayProps) => {
+const MapOverlay = ({ activeCategory, onCategoryChange, sidebarOpen, onSidebarToggle }: MapOverlayProps) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -23,6 +25,20 @@ const MapOverlay = ({ activeCategory, onCategoryChange }: MapOverlayProps) => {
 
   return (
     <div className="flex items-center gap-2 w-full">
+      <button
+        onClick={onSidebarToggle}
+        aria-label="Toggle sidebar"
+        className="w-10 h-10 shrink-0 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center hover:bg-stone-50 hover:shadow-lg transition-all duration-150 cursor-pointer"
+      >
+        <svg className="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {sidebarOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
       <div className="w-72 shrink-0">
         <SearchBar placeholder="Search spots..." />
       </div>
