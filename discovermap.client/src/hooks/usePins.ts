@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPins } from "../services/pinService";
-import type { Pin } from "../types/Pin";
+import type { Pin } from "../types/pin";
 
 const usePins = () => {
     const [pins, setPins] = useState<Pin[]>([]);

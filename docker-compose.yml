@@ -23,7 +23,14 @@ services:
     ports:
       - "5227:8080"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Database connection (matching the PostgreSQL container credentials)
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=discovermapdb;Username=discovermap;Password=discovermap123
+      # JWT Configuration
+      - Jwt__Key=jlVPKIBOG2WW6ZNcsD3ZM924sEvFmuP9D/KY1LgDb94=
+      - Jwt__Issuer=DiscoverMap
+      - Jwt__Audience=DiscoverMapUsers
+      - Jwt__ExpiryMinutes=60
     depends_on:
       db:
         condition: service_healthy

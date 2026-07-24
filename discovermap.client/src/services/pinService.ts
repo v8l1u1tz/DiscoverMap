@@ -1,4 +1,4 @@
-import type { Pin } from "../types/Pin";
+import type { Pin } from "../types/pin";
 
 const API_URL = "http://localhost:5227/api/pin";
 

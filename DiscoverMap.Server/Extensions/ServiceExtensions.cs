@@ -24,9 +24,22 @@ namespace DiscoverMap.Server.Extensions
             // Repositories & Services
             services.AddScoped<IPinRepository, PinRepository>();
             services.AddScoped<PinService>();
-
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<AuthService>();
+
+            // Get JWT configuration with fallback
+            var jwtKey = configuration["Jwt:Key"] ?? 
+                        Environment.GetEnvironmentVariable("Jwt__Key") ?? 
+                        // Only for development!
+                        "DevelopmentKeyWith32Characters!!!";
+            
+            var jwtIssuer = configuration["Jwt:Issuer"] ?? 
+                            Environment.GetEnvironmentVariable("Jwt__Issuer") ?? 
+                            "DiscoverMap";
+            
+            var jwtAudience = configuration["Jwt:Audience"] ?? 
+                            Environment.GetEnvironmentVariable("Jwt__Audience") ?? 
+                            "DiscoverMapUsers";
 
             // JWT Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -38,16 +51,14 @@ namespace DiscoverMap.Server.Extensions
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration["Jwt:Issuer"],
-                        ValidAudience = configuration["Jwt:Audience"],
+                        ValidIssuer = jwtIssuer,
+                        ValidAudience = jwtAudience,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                            Encoding.UTF8.GetBytes(jwtKey))
                     };
                 });
 
             services.AddAuthorization();
-
-            // Controllers, OpenAPI, CORS
             services.AddControllers();
             services.AddOpenApi();
             services.AddCorsPolicy();
