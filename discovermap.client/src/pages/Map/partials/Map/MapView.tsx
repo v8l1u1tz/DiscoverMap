@@ -1,9 +1,10 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import type { Pin } from "../../../types/pin";
+import type { Pin } from "../../../../types/pin";
 import MapResizeHandler from "./MapResizeHandler";
-import PinMarker from "./PinMarker";
+import PinMarker from "../Pin/PinMarker";
+import MapFlyTo from "./MapFlyTo";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -15,9 +16,10 @@ L.Icon.Default.mergeOptions({
 interface MapViewProps {
   pins: Pin[];
   resizeTrigger: unknown;
+  selectedPin: Pin | null;
 }
 
-const MapView = ({ pins, resizeTrigger }: MapViewProps) => {
+const MapView = ({ pins, resizeTrigger, selectedPin }: MapViewProps) => {
   return (
     <div className="h-full w-full">
       <MapContainer center={[14.5995, 120.9842]} zoom={13} style={{ height: "100%", width: "100%" }}>
@@ -26,6 +28,7 @@ const MapView = ({ pins, resizeTrigger }: MapViewProps) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapResizeHandler trigger={resizeTrigger} />
+        <MapFlyTo pin={selectedPin} />
         {pins.map((pin) => (
           <PinMarker key={pin.id} pin={pin} />
         ))}

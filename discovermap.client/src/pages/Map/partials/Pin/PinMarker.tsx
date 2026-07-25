@@ -1,7 +1,7 @@
 import { Marker, Popup } from "react-leaflet";
-import type { Pin } from "../../../types/pin";
-import PinPopup from "../../../pages/Map/partials/PinPopup";
-import { pinIcon } from "../../../lib/icons";
+import type { Pin } from "../../../../types/pin";
+import PinPopup from "./PinPopup";
+import { pinIcon } from "../../../../lib/icons";
 
 interface PinMarkerProps {
   pin: Pin;

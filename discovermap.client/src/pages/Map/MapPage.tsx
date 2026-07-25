@@ -3,16 +3,18 @@ import PageLayout from "../../components/layout/PageLayout";
 import PageBody from "../../components/layout/PageBody";
 import Sidebar from "../../components/layout/Sidebar";
 import Divider from "../../components/ui/Divider";
-import MapOverlay from "./partials/MapOverlay";
-import MapFrame from "./partials/MapFrame";
-import MapView from "./partials/MapView";
-import PinList from "./partials/PinList";
+import MapOverlay from "./partials/Map/MapOverlay";
+import MapFrame from "./partials/Map/MapFrame";
+import MapView from "./partials/Map/MapView";
+import PinList from "./partials/Pin/PinList";
 import usePins from "../../hooks/usePins";
+import type { Pin } from "../../types/pin";
 
 const MapPage = () => {
   const { pins, loading, error } = usePins();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedPin, setSelectedPin] = useState<Pin | null>(null);
 
   if (loading) return (
     <div className="flex items-center justify-center h-screen text-stone-400 text-sm">
@@ -34,7 +36,7 @@ const MapPage = () => {
             DiscoverMap
           </span>
           <Divider />
-          <PinList pins={pins} />
+          <PinList pins={pins} selectedPinId={selectedPin?.id} onPinClick={setSelectedPin} />
         </Sidebar>
 
         <MapFrame
@@ -47,7 +49,7 @@ const MapPage = () => {
             />
           }
         >
-          <MapView pins={pins} resizeTrigger={sidebarOpen} />
+          <MapView pins={pins} resizeTrigger={sidebarOpen} selectedPin={selectedPin} />
         </MapFrame>
       </PageBody>
     </PageLayout>
