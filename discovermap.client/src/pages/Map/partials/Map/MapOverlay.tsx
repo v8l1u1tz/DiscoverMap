@@ -10,11 +10,20 @@ const CATEGORIES = ["All", "Cafe", "Gym", "Lounge", "Hidden Gems", "Landmark", "
 interface MapOverlayProps {
   activeCategory: string;
   onCategoryChange: (cat: string) => void;
+  searchTerm: string;
+  onSearchChange: (term: string) => void;
   sidebarOpen: boolean;
   onSidebarToggle: () => void;
 }
 
-const MapOverlay = ({ activeCategory, onCategoryChange, sidebarOpen, onSidebarToggle }: MapOverlayProps) => {
+const MapOverlay = ({
+  activeCategory,
+  onCategoryChange,
+  searchTerm,
+  onSearchChange,
+  sidebarOpen,
+  onSidebarToggle,
+}: MapOverlayProps) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -40,7 +49,11 @@ const MapOverlay = ({ activeCategory, onCategoryChange, sidebarOpen, onSidebarTo
       </button>
 
       <div className="w-72 shrink-0">
-        <SearchBar placeholder="Search spots..." />
+        <SearchBar
+          placeholder="Search spots..."
+          value={searchTerm}
+          onChange={onSearchChange}
+        />
       </div>
 
       <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
