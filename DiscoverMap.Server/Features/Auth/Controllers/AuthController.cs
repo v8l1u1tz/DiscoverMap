@@ -1,6 +1,7 @@
 using DiscoverMap.Server.Common.Models;
 using DiscoverMap.Server.Features.Auth.DTOs;
 using DiscoverMap.Server.Features.Auth.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -37,7 +38,33 @@ namespace DiscoverMap.Server.Features.Auth.Controllers
         {
             var token = await _authService.LoginAsync(dto);
             if (token == null) return Unauthorized("Invalid credentials.");
-            return Ok(new { token });
+
+            Response.Cookies.Append("access_token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+            });
+
+            return Ok(new { message = "Logged in successfully." });
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            return Ok(new { message = "Logged out successfully." });
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult Me()
+        {
+            var username = User.Identity?.Name;
+            var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+
+            return Ok(new { username, email });
         }
     }
 }

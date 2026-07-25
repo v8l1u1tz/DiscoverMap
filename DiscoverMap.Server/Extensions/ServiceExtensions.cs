@@ -7,8 +7,8 @@ using DiscoverMap.Server.Features.Auth.Services;
 using DiscoverMap.Server.Features.Pins.Repositories;
 using DiscoverMap.Server.Features.Pins.Repositories.Interfaces;
 using DiscoverMap.Server.Features.Pins.Services;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -29,16 +29,16 @@ namespace DiscoverMap.Server.Extensions
             services.AddScoped<AuthService>();
 
             // Get JWT configuration with fallback
-            var jwtKey = configuration["Jwt:Key"] 
-                        ?? Environment.GetEnvironmentVariable("Jwt__Key")
-                        ?? throw new InvalidOperationException("JWT signing key is not configured.");
-            
-            var jwtIssuer = configuration["Jwt:Issuer"] ?? 
-                            Environment.GetEnvironmentVariable("Jwt__Issuer") ?? 
+            var jwtKey = configuration["Jwt:Key"] ??
+                        Environment.GetEnvironmentVariable("Jwt__Key") ??
+                        "DevelopmentKeyWith32Characters!!!";
+
+            var jwtIssuer = configuration["Jwt:Issuer"] ??
+                            Environment.GetEnvironmentVariable("Jwt__Issuer") ??
                             "DiscoverMap";
-            
-            var jwtAudience = configuration["Jwt:Audience"] ?? 
-                            Environment.GetEnvironmentVariable("Jwt__Audience") ?? 
+
+            var jwtAudience = configuration["Jwt:Audience"] ??
+                            Environment.GetEnvironmentVariable("Jwt__Audience") ??
                             "DiscoverMapUsers";
 
             // JWT Authentication
@@ -56,6 +56,20 @@ namespace DiscoverMap.Server.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(jwtKey))
                     };
+
+                    /** read the JWT from the httpOnly cookie instead of the
+                        authorization header... **/
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (context.Request.Cookies.ContainsKey("access_token"))
+                            {
+                                context.Token = context.Request.Cookies["access_token"];
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization();
@@ -63,6 +77,7 @@ namespace DiscoverMap.Server.Extensions
             services.AddOpenApi();
             services.AddCorsPolicy();
 
+            //rate limiting
             services.AddRateLimiter(options =>
             {
                 options.AddFixedWindowLimiter("AuthPolicy", opt =>

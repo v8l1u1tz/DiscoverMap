@@ -3,7 +3,7 @@ import CategoryChip from "../../../components/ui/CategoryChip";
 import Dropdown from "../../../components/ui/Dropdown";
 import DropdownItem from "../../../components/ui/DropdownItem";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../context/AuthContext";
 
 const CATEGORIES = ["All", "Cafe", "Gym", "Lounge", "Hidden Gems", "Landmark", "Restaurant"];
 
