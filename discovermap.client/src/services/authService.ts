@@ -26,10 +26,13 @@ export const authService = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+
     if (!res.ok) {
-      const message = await res.text();
-      throw new Error(message || `Request failed with status ${res.status}`);
+      const data = await res.json().catch(() => null);
+      const message = data?.errors?.join(" ") ?? `Request failed with status ${res.status}`;
+      throw new Error(message);
     }
+
     return res.text();
   },
 };
