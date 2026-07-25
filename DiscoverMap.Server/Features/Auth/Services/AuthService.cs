@@ -1,10 +1,12 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DiscoverMap.Server.Common.Helpers;
+using DiscoverMap.Server.Common.Models;
 using DiscoverMap.Server.Features.Auth.DTOs;
 using DiscoverMap.Server.Features.Auth.Models;
 using DiscoverMap.Server.Features.Auth.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DiscoverMap.Server.Features.Auth.Services
@@ -13,6 +15,7 @@ namespace DiscoverMap.Server.Features.Auth.Services
     {
         private readonly IUserRepository _repo;
         private readonly IConfiguration _config;
+        private const string DummyHash = "$2a$11$CwTycUXWumAMam0BluEM0uJ8dQ0lY.9NpP5Kk3aP0hYlF.KTAA2cS";
 
         public AuthService(IUserRepository repo, IConfiguration config)
         {
@@ -20,10 +23,20 @@ namespace DiscoverMap.Server.Features.Auth.Services
             _config = config;
         }
 
-        public async Task<bool> RegisterAsync(RegisterDTO dto)
+        public async Task<AuthResult> RegisterAsync(RegisterDTO dto)
         {
-            var exists = await _repo.ExistsByEmailOrUsernameAsync(dto.Email, dto.Username);
-            if (exists) return false;
+            var result = new AuthResult();
+
+            result.Errors.AddRange(PasswordValidator.Validate(dto.Password));
+
+            if (await _repo.ExistsByEmailAsync(dto.Email))
+                result.Errors.Add("Email is already registered.");
+
+            if (await _repo.ExistsByUsernameAsync(dto.Username))
+                result.Errors.Add("Username is already taken.");
+
+            if (result.Errors.Count > 0)
+                return result;
 
             var user = new User
             {
@@ -32,16 +45,28 @@ namespace DiscoverMap.Server.Features.Auth.Services
                 PasswordHash = PasswordHasher.Hash(dto.Password)
             };
 
-            await _repo.AddAsync(user);
-            return true;
+            try
+            {
+                await _repo.AddAsync(user);
+            }
+            catch (DbUpdateException)
+            {
+                result.Errors.Add("Username or email is already taken.");
+                return result;
+            }
+
+            result.Succeeded = true;
+            return result;
         }
 
         public async Task<string?> LoginAsync(LoginDTO dto)
         {
             var user = await _repo.GetByEmailAsync(dto.Email);
-            if (user == null) return null;
 
-            if (!PasswordHasher.Verify(dto.Password, user.PasswordHash)) return null;
+            var hashToCheck = user?.PasswordHash ?? DummyHash;
+            var isValid = PasswordHasher.Verify(dto.Password, hashToCheck);
+
+            if (user == null || !isValid) return null;
 
             return GenerateToken(user);
         }

@@ -17,3 +17,7 @@ export interface AuthUser {
   username: string;
   email: string;
 }
+
+export interface ApiErrorResponse {
+  errors: string[];
+}

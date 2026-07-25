@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../hooks/useAuth";
 import Input from "../../../../components/ui/Input";
 import Button from "../../../../components/ui/Button";
+import PasswordInput from "../../../../components/ui/PasswordInput";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -29,9 +30,8 @@ export default function LoginForm() {
         autoComplete="email"
       />
 
-      <Input
+      <PasswordInput
         label="Password"
-        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required

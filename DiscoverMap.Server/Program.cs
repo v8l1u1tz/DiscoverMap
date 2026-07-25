@@ -1,6 +1,7 @@
 ﻿using DiscoverMap.Server.Common.Helpers;
 using DiscoverMap.Server.Extensions;
 using DiscoverMap.Server.Routes;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,16 @@ var app = builder.Build();
 
 await app.SeedDatabaseAsync();
 
+// Security / transport
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+app.UseHttpsRedirection();
+
 // Middleware
 app.UseCors("AllowFrontend");
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 

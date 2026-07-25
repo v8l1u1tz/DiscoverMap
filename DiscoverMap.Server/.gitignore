@@ -40,7 +40,6 @@ docker-compose.local.yml
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
 
 DiscoverMap.Server/bin/

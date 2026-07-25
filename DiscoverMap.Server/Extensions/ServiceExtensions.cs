@@ -7,6 +7,7 @@ using DiscoverMap.Server.Features.Auth.Services;
 using DiscoverMap.Server.Features.Pins.Repositories;
 using DiscoverMap.Server.Features.Pins.Repositories.Interfaces;
 using DiscoverMap.Server.Features.Pins.Services;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -28,10 +29,9 @@ namespace DiscoverMap.Server.Extensions
             services.AddScoped<AuthService>();
 
             // Get JWT configuration with fallback
-            var jwtKey = configuration["Jwt:Key"] ?? 
-                        Environment.GetEnvironmentVariable("Jwt__Key") ?? 
-                        // Only for development!
-                        "DevelopmentKeyWith32Characters!!!";
+            var jwtKey = configuration["Jwt:Key"] 
+                        ?? Environment.GetEnvironmentVariable("Jwt__Key")
+                        ?? throw new InvalidOperationException("JWT signing key is not configured.");
             
             var jwtIssuer = configuration["Jwt:Issuer"] ?? 
                             Environment.GetEnvironmentVariable("Jwt__Issuer") ?? 
@@ -62,6 +62,17 @@ namespace DiscoverMap.Server.Extensions
             services.AddControllers();
             services.AddOpenApi();
             services.AddCorsPolicy();
+
+            services.AddRateLimiter(options =>
+            {
+                options.AddFixedWindowLimiter("AuthPolicy", opt =>
+                {
+                    opt.PermitLimit = 5;
+                    opt.Window = TimeSpan.FromMinutes(1);
+                    opt.QueueLimit = 0;
+                });
+                options.RejectionStatusCode = 429;
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../hooks/useAuth";
 import Input from "../../../../components/ui/Input";
 import Button from "../../../../components/ui/Button";
+import PasswordInput from "../../../../components/ui/PasswordInput";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -13,12 +14,24 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
 
+  const isPasswordStrong = (pw: string) =>
+    pw.length >= 8 &&
+    /[A-Z]/.test(pw) &&
+    /[a-z]/.test(pw) &&
+    /[0-9]/.test(pw) &&
+    /[^A-Za-z0-9]/.test(pw);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLocalError(null);
 
     if (!username.trim()) {
       setLocalError("Username is required.");
+      return;
+    }
+
+    if (!isPasswordStrong(password)) {
+      setLocalError("Password must be 8+ chars with upper, lower, number, and special character.");
       return;
     }
 
@@ -47,15 +60,14 @@ export default function RegisterForm() {
         autoComplete="email"
       />
 
-      <Input
+      <PasswordInput
         label="Password"
-        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
         minLength={6}
         placeholder="••••••••"
-        autoComplete="new-password"
+        autoComplete="current-password"
       />
 
       {(error || localError) && (
