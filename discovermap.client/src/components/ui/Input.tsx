@@ -15,7 +15,7 @@ export default function Input({ label, error, id, className = "", ...rest }: Inp
       </label>
       <input
         id={inputId}
-        className={`w-full rounded-lg border px-3 py-2 text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors ${
+        className={`w-full rounded-lg border px-3 py-2 text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-500 transition-colors ${
           error ? "border-red-400" : "border-stone-200"
         } ${className}`}
         {...rest}

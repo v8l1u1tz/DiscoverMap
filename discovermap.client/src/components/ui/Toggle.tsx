@@ -22,7 +22,7 @@ export default function Toggle({ options, value, onChange, className = "" }: Tog
           onClick={() => onChange(option.value)}
           className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
             value === option.value
-              ? "bg-emerald-500 text-white"
+              ? "bg-stone-800 text-white"
               : "text-stone-500 hover:text-stone-800"
           }`}
         >
