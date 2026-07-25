@@ -17,8 +17,11 @@ namespace DiscoverMap.Server.Features.Auth.Repositories
         public async Task<User?> GetByEmailAsync(string email)
             => await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-        public async Task<bool> ExistsByEmailOrUsernameAsync(string email, string username)
-            => await _dbContext.Users.AnyAsync(u => u.Email == email || u.Username == username);
+        public async Task<bool> ExistsByEmailAsync(string email)
+            => await _dbContext.Users.AnyAsync(u => u.Email == email);
+
+        public async Task<bool> ExistsByUsernameAsync(string username)
+            => await _dbContext.Users.AnyAsync(u => u.Username == username);
 
         public async Task AddAsync(User user)
         {

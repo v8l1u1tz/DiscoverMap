@@ -1,6 +1,8 @@
+using DiscoverMap.Server.Common.Models;
 using DiscoverMap.Server.Features.Auth.DTOs;
 using DiscoverMap.Server.Features.Auth.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DiscoverMap.Server.Features.Auth.Controllers
 {
@@ -16,14 +18,21 @@ namespace DiscoverMap.Server.Features.Auth.Controllers
         }
 
         [HttpPost("register")]
+        [EnableRateLimiting("AuthPolicy")]
         public async Task<IActionResult> Register(RegisterDTO dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var result = await _authService.RegisterAsync(dto);
-            if (!result) return BadRequest("Username or email already exists.");
+            if (!result.Succeeded)
+                return BadRequest(new { errors = result.Errors });
+
             return Ok("Registered successfully.");
         }
 
         [HttpPost("login")]
+        [EnableRateLimiting("AuthPolicy")]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
             var token = await _authService.LoginAsync(dto);
