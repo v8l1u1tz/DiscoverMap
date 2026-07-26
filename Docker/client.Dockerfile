@@ -5,5 +5,5 @@ COPY discovermap.client/package*.json ./
 RUN npm install
 
 COPY discovermap.client/. .
-EXPOSE 5174
+EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]
