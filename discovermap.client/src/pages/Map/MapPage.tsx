@@ -9,7 +9,7 @@ import MapView from "./partials/Map/MapView";
 import PinList from "./partials/Pin/PinList";
 import usePins from "../../hooks/usePins";
 import type { Pin } from "../../types/pin";
-import useFilteredPins from "../../hooks/useFilteredPins";
+import useSearchedPins from "../../hooks/useSearchedPins";
 
 const MapPage = () => {
   const { pins, loading, error } = usePins();
@@ -18,7 +18,7 @@ const MapPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPin, setSelectedPin] = useState<Pin | null>(null);
 
-  const filteredPins = useFilteredPins(pins, searchTerm, activeCategory);
+  const searchedPins = useSearchedPins(pins, searchTerm);
 
   if (loading) return (
     <div className="flex items-center justify-center h-screen text-stone-400 text-sm">
@@ -40,7 +40,7 @@ const MapPage = () => {
             DiscoverMap
           </span>
           <Divider />
-          <PinList pins={filteredPins} selectedPinId={selectedPin?.id} onPinClick={setSelectedPin} />
+          <PinList pins={searchedPins} selectedPinId={selectedPin?.id} onPinClick={setSelectedPin} />
         </Sidebar>
 
         <MapFrame
@@ -55,7 +55,7 @@ const MapPage = () => {
             />
           }
         >
-          <MapView pins={filteredPins} resizeTrigger={sidebarOpen} selectedPin={selectedPin} />
+          <MapView pins={searchedPins} resizeTrigger={sidebarOpen} selectedPin={selectedPin} />
         </MapFrame>
       </PageBody>
     </PageLayout>
